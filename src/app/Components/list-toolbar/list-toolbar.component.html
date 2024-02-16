@@ -1,0 +1,35 @@
+<ion-toolbar>
+	<ion-buttons slot="start" [collapse]="true">
+		<ion-buttons slot="start">
+			<ion-menu-button icon="close-circle-outline"></ion-menu-button>
+		</ion-buttons>
+		<ion-button color="dark" *ngIf="!selectedItems?.length" class="ion-hide-sm-down_">
+			{{pageConfig.pageTitle}}
+		</ion-button>
+		<ion-button color="dark" *ngIf="selectedItems?.length" (click)="emit('unselect')">
+			{{selectedItems.length +' dòng'}}
+		</ion-button>
+		<ng-content select="[title]"></ng-content>
+	</ion-buttons>
+
+	<ion-buttons [collapse]="true" slot="end" *ngIf="selectedItems.length">
+		<ion-button (click)="emit('unselect')" title="Unselect">
+			<ion-icon color="primary" slot="icon-only" name="chevron-back-outline"></ion-icon>
+		</ion-button>
+		<ion-button (click)="emit('deleteItems')" title="Delete">
+			<ion-icon color="danger" slot="icon-only" name="trash-outline"></ion-icon>
+		</ion-button>
+	</ion-buttons>
+
+	<ion-buttons [collapse]="true" slot="end" *ngIf="!selectedItems.length">
+		<ion-button (click)="pageConfig.isShowSearch = !pageConfig.isShowSearch" title="Search">
+			<ion-icon slot="icon-only" name="search-outline"></ion-icon>
+		</ion-button>
+		<ion-button (click)="emit('refresh')" title="Refresh">
+			<ion-icon slot="icon-only" name="reload-outline"></ion-icon>
+		</ion-button>
+		<ion-button (click)="emit('add')" title="Add">
+			<ion-icon slot="icon-only" name="add-outline"></ion-icon>
+		</ion-button>
+	</ion-buttons>
+</ion-toolbar>

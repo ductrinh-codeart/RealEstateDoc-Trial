@@ -1,0 +1,96 @@
+<ion-header [translucent]="true">
+	<app-list-toolbar pageTitle="business-partner" [pageConfig]="pageConfig" [selectedItems]="selectedItems"
+		(add)="add()" (refresh)="refresh()" (unselect)="unselect()" (deleteItems)="deleteData()"></app-list-toolbar>
+</ion-header>
+
+
+<ion-content appScrollbarTheme class="scrollx">
+
+
+	<section class="table responsive">
+		<section class="table responsive">
+			<header class="bold">
+				<div class="col-checkbox cell"></div>
+				<div class="col-id cell" (click)="sortToggle('id')">
+					Id
+					<ion-icon class="min-btn" *ngIf="sort.id" [name]="sort.id == 'id'?'arrow-down': 'arrow-up'"></ion-icon>
+				</div>
+
+				<div class="col-name cell" (click)="sortToggle('fullname')">
+					Full Name
+					<ion-icon class="min-btn" *ngIf="sort.fullname" [name]="sort.fullname == 'fullname'?'arrow-down': 'arrow-up'"></ion-icon>
+				</div>
+
+				<div class="col-name cell" (click)="sortToggle('phonenumber')">
+					Phone Number
+					<ion-icon class="min-btn" *ngIf="sort.phonenumber" [name]="sort.phonenumber == 'phonenumber'?'arrow-down': 'arrow-up'"></ion-icon>
+				</div>
+
+				<div class="col-name cell" (click)="sortToggle('code')">
+					Code
+					<ion-icon class="min-btn" *ngIf="sort.code" [name]="sort.code == 'code'?'arrow-down': 'arrow-up'"></ion-icon>
+				</div>
+
+				<div class="col-remark cell" (click)="sortToggle('remark')">
+					Remark
+					<ion-icon class="min-btn" *ngIf="sort.remark" [name]="sort.remark == 'remark'?'arrow-down': 'arrow-up'"></ion-icon>
+				</div>
+			</header>
+			<form (submit)="refresh()" action="#">
+				<header class="filter" *ngIf="pageConfig.isShowSearch">
+					<div class="col-checkbox cell"></div>
+					<div class="col-id cell">
+						<input placeholder="Id" class="c-input" type="text">
+						<ion-icon class="min-btn" name="close-circle-outline"></ion-icon>
+					</div>
+
+					<div class="col-name cell">
+						<input placeholder="Full Name" class="c-input" type="text">
+						<ion-icon class="min-btn" name="close-circle-outline"></ion-icon>
+					</div>
+
+					<div class="col-name cell">
+						<input placeholder="Phone Number" class="c-input" type="text">
+						<ion-icon class="min-btn" name="close-circle-outline"></ion-icon>
+					</div>
+
+					<div class="col-name cell">
+						<input placeholder="Code" class="c-input" type="text">
+						<ion-icon class="min-btn" name="close-circle-outline"></ion-icon>
+					</div>
+
+					<div class="col-name cell">
+						<input placeholder="Remark" class="c-input" type="text">
+						<ion-icon class="min-btn" name="close-circle-outline"></ion-icon>
+					</div>
+					<button mat-raised-button type="submit" style="display:none">Search</button>
+				</header>
+			</form>
+		</section>
+
+		<ng-container *ngIf="items">
+			<div *ngFor="let i of items; let j = index;" class="row" [ngClass]="{odd: j % 2 != 0}">
+				<div class="col-checkbox cell">
+					<input (click)="changeSelection(i, $event)" class="c-checkbox" [(ngModel)]="i.checked"
+						type="checkbox">
+				</div>
+				<div class="col-id cell">
+					<a [routerLink]="['/business-partner/'+i.id]">{{i.id}}</a>
+				</div>
+				<div (click)="showItem(i)" class="col-name cell">
+					{{i.fullname}}
+				</div>
+				<div (click)="showItem(i)" class="col-name cell">
+					{{i.phonenumber}}
+				</div>
+				<div (click)="showItem(i)" class="col-name cell">
+					{{i.code}}
+				</div>
+				<div (click)="showItem(i)" class="col-remark cell">
+					{{i.remark}}
+				</div>
+			</div>
+		</ng-container>
+
+	</section>
+</ion-content>

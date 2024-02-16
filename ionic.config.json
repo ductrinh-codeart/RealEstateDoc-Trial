@@ -1,0 +1,7 @@
+{
+  "name": "RealEstateDoc Frontend Trial",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

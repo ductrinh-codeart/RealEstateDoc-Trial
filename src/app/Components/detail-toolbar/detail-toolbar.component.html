@@ -1,0 +1,18 @@
+<ion-toolbar>
+	<ion-buttons slot="start" [collapse]="true">
+    	<ion-back-button [defaultHref]="BackHref? BackHref : page.pageConfig.pageCode" [text]="'Back'"> </ion-back-button>
+		<ion-button color="dark" class="ion-hide-sm-down_">
+			{{page.pageConfig.pageName}} Detail
+		</ion-button>
+		<ng-content select="[title]"></ng-content>
+	</ion-buttons>
+
+  <ion-buttons [collapse]="true" slot="end">
+		<ion-button (click)="emit('delete')" title="Delete">
+			<ion-icon color="danger" slot="icon-only" name="trash-outline"></ion-icon>
+		</ion-button>
+		<ion-button (click)="emit('refresh')" title="Refresh">
+			<ion-icon slot="icon-only" name="reload-outline"></ion-icon>
+		</ion-button>
+	</ion-buttons>
+</ion-toolbar>

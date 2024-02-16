@@ -1,0 +1,175 @@
+<ion-header [translucent]="true">
+  <app-detail-toolbar [page]="this" (refresh)="refreshData()" (delete)="deleteData()"></app-detail-toolbar>
+</ion-header>
+
+<ion-content appScrollbarTheme class="ion-padding">
+  <div id="detail-page" style="position: absolute;"></div>
+  <div class="main-view" *ngIf="item && pageConfig.showSpinner==false">
+    <ion-grid fixed>
+      <ion-row class="hr-group">
+        <ion-col size="12" size-sm="12" size-md="12" size-xl="3">
+          <ion-list-header class="ion-no-padding">
+            <ion-label color="primary">{{'Flat'}}</ion-label>
+          </ion-list-header>
+        </ion-col>
+        <ion-col size="12" size-sm size-xl="4">
+          <div class="c-control">
+            <label class="c-label">Item Name<span><small>Id: {{item?.id}}</small></span></label>
+            <input readonly class="c-input" [(ngModel)]="item.name" type="text">
+          </div>
+        </ion-col>
+        <ion-col size="12" size-sm size-xl="4">
+          <div class="c-control">
+            <label class="c-label">Code</label>
+            <input readonly class="c-input" [(ngModel)]="item.code" type="text">
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="row-full shadow full-screen">
+      <ion-toolbar color="primary">
+        <ion-segment scrollable="true" (ionChange)="segmentChanged($event)" [value]="segmentView">
+          <ion-segment-button value="s1">
+            <ion-label>{{'General Detail'}}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="s2">
+            <ion-label>{{'Other information'}}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-toolbar>
+
+
+      <!-- General information -->
+      <div *ngIf="segmentView == 's1'">
+        <ion-grid fixed>
+          <form [formGroup]="formGroup">
+
+            <ion-row class="hr-group">
+              <ion-col size="12" size-sm="12" size-md="12" size-xl="3">
+                <ion-list-header class="ion-no-padding">
+                  <ion-label color="primary">General</ion-label>
+                </ion-list-header>
+              </ion-col>
+              <ion-col size="12" size-sm size-xl="4">
+
+                <div class="c-control">
+                  <label class="c-label" for="name">Name
+                    <span
+                      *ngIf="!formGroup.controls.name.valid && !formGroup.controls.name.pending && (formGroup.controls.name.dirty || submitAttempt)"
+                      ion-text color="danger">(*)</span>
+                  </label>
+                  <input class="c-input" (blur)="saveData($event)" formControlName="name" type="text">
+                </div>
+
+                <div class="c-control">
+                  <label class="c-label" for="code">Code
+                    <span
+                      *ngIf="!formGroup.controls.code.valid && !formGroup.controls.code.pending && (formGroup.controls.code.dirty || submitAttempt)"
+                      ion-text color="danger">(*)</span>
+                  </label>
+                  <input class="c-input" (blur)="saveData($event)" formControlName="code" type="text">
+                </div>
+
+                <div class="c-control">
+                  <label class="c-label" for="UoM">UoM
+                    <span
+                      *ngIf="!formGroup.controls.uom.valid && !formGroup.controls.uom.pending && (formGroup.controls.uom.dirty || submitAttempt)"
+                      ion-text color="danger">(*)</span>
+                  </label>
+                  <ng-select (change)="saveData($event)" class="c-input" #UoM formControlName="uom"
+                    labelForId="Code" [items]="UoMList" bindLabel="Name" bindValue="Code" placeholder="UoM">
+                  </ng-select>
+                </div>
+
+                <div class="c-control">
+                  <label class="c-label">price</label>
+                  <span
+                    *ngIf="!formGroup.controls.price.valid && !formGroup.controls.price.pending && (formGroup.controls.price.dirty || submitAttempt)"
+                    ion-text color="danger">(*)</span>
+                  <input class="c-input" (blur)="saveData($event)" formControlName="price" type="text">
+                </div>
+
+              </ion-col>
+              <ion-col size="12" size-sm size-xl="4">
+
+                <div class="c-control">
+                  <label class="c-label">Instock Quantity</label>
+                  <span
+                    *ngIf="!formGroup.controls.instockquantity.valid && !formGroup.controls.instockquantity.pending && (formGroup.controls.instockquantity.dirty || submitAttempt)"
+                    ion-text color="danger">(*)</span>
+                  <input class="c-input" (blur)="saveData($event)" formControlName="instockquantity" type="text">
+                </div>
+
+                <div class="c-control">
+                  <label class="c-label">Commited Quantity</label>
+                  <span
+                    *ngIf="!formGroup.controls.commitedquantity.valid && !formGroup.controls.commitedquantity.pending && (formGroup.controls.commitedquantity.dirty || submitAttempt)"
+                    ion-text color="danger">(*)</span>
+                  <input class="c-input" (blur)="saveData($event)" formControlName="commitedquantity" type="text">
+                </div>
+
+                <div class="c-control">
+                  <label class="c-label">Ordered Quantity</label>
+                  <span
+                    *ngIf="!formGroup.controls.orderedquantity.valid && !formGroup.controls.orderedquantity.pending && (formGroup.controls.orderedquantity.dirty || submitAttempt)"
+                    ion-text color="danger">(*)</span>
+                  <input class="c-input" (blur)="saveData($event)" formControlName="orderedquantity" type="text">
+                </div>
+
+                <div class="c-control">
+                  <label class="c-label">Remark</label>
+                  <span
+                    *ngIf="!formGroup.controls.remark.valid && !formGroup.controls.remark.pending && (formGroup.controls.remark.dirty || submitAttempt)"
+                    ion-text color="danger">(*)</span>
+                  <textarea type="textarea" class="c-input remark" placeholder="Ghi chú" (blur)="saveData($event)" formControlName="remark" rows="3"></textarea>
+                </div>
+
+              </ion-col>
+            </ion-row>
+
+          </form>
+        </ion-grid>
+      </div>
+
+      <!-- Other information -->
+      <div *ngIf="segmentView == 's2'">
+        <ion-grid fixed>
+          <form [formGroup]="formGroup">
+            <ion-row class="hr-group">
+              <ion-col size="12" size-sm="12" size-md="12" size-xl="3">
+                <ion-list-header class="ion-no-padding">
+                  <ion-label color="primary">Others</ion-label>
+                </ion-list-header>
+              </ion-col>
+              <ion-col size="12" size-sm size-xl="4">
+
+                <div class="c-control">
+                  <label class="c-label" for="createddate">Created Date
+                    <span
+                      *ngIf="!formGroup.controls.createddate.valid && !formGroup.controls.createddate.pending && (formGroup.controls.createddate.dirty || submitAttempt)"
+                      ion-text color="danger">(*)</span>
+                  </label>
+                  <input readonly class="c-input" formControlName="createddate" type="text">
+                </div>
+
+              </ion-col>
+              <ion-col size="12" size-sm size-xl="4">
+
+                <div class="c-control">
+                  <label class="c-label" for="modifieddate">Modified Date
+                    <span
+                      *ngIf="!formGroup.controls.modifieddate.valid && !formGroup.controls.modifieddate.pending && (formGroup.controls.modifieddate.dirty || submitAttempt)"
+                      ion-text color="danger">(*)</span>
+                  </label>
+                  <input readonly class="c-input" formControlName="modifieddate" type="text">
+                </div>
+
+              </ion-col>
+            </ion-row>
+          </form>
+        </ion-grid>
+      </div>
+    </div>
+  </div>
+</ion-content>
